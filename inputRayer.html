@@ -1,0 +1,172 @@
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+<head>
+<style>
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+button{background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; overflow:visible; cursor:pointer}
+*{padding:0; margin:0; box-sizing: border-box;}
+body{width:100%; height:100%; display:block; position: relative;}
+.font_mono{font-family: monospace;}
+.font1{font-weight: 600; font-size: 18px; color: #eee;}
+.font2{font-weight: 600; color: #eee;}
+.font3{font-weight: 600; color: #363636;}
+.font4{font-weight: 600; color: #bfbfbf;}
+.font5{font-weight: 600; color: #5e5e5e;}
+.font6{font-weight: 600; font-size: 28px;color: #fff;}
+.font7{font-size: 14px;color: #999;}
+section{width: 100%; height:90%; display:flex; flex-direction: column; justify-content: center;}
+footer{width: 100%; height: 10%; position:relative;}
+.box{background: #fff; /*border: 1px solid #666;*/ margin: 2 20px;}
+#graph_box{height:100px;}
+#metronome_box{height:130px; text-align: center;}
+.label_box{height: 100px;}
+.button_many_area.active{background-color:#efefef; color:#5e5e5e;}
+.detail_box.active{background-color:#6c6c6c; color:#fff;}
+/*.fix_box.active:after{content:''; display:block; width:0px; height:0px;  position:absolute; top:-15px;left:50%; transform: translateX(-50%); border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 30px solid #a5a5a5;}*/
+.button_box{display: table; width: 100%; height: 50px; position: absolute; bottom: 0;}
+.button_box *{cursor:pointer;}
+.button2_area{width: 50%; height: 100%; display: table-cell; text-align:center;}
+.button_many_area{display: inline-block; width: 60px; height:100%; text-align:center; border : 1px solid #999;}
+.button_many_area:first-child{border-left: 1px solid #999;}
+.flex_c_c{display:flex; justify-content: center; align-items: center;}
+.button_l{background:linear-gradient(70deg, #7a7a7a, #a1a1a1);}
+.button_r{background: linear-gradient(140deg, #e9e9e9, #c1c1c1);}
+.float_r{float: right;}
+.float_r:after{content:""; display:block; clear:both;}
+.main_btn{display:flex; height:100%; background-color:#5a5a5a; position:absolute; bottom:0; left:50%; transform: translateX(-50%); border-radius: 50%; align-items: center; justify-content: center;cursor:pointer;}
+.detail_box{display:block; height: auto; margin-bottom: 8px; padding: 13px 20px; border:1px solid #999; border-radius: 5px;background-color:#efefef; color:#5e5e5e;}
+.bottom_box{height: calc(60% - 8px); position:relative;}
+.scroll_x_box{overflow-x: scroll; white-space:nowrap;}
+.btn_list_box{display: inline-block; width: calc(100% - 60px); height:100%; padding-right: 60px;}
+.fix_box{display:inline-block; width: 60px; height:100%; background-color:#6c6c6c; border: 1px solid #999; text-align:center; position:absolute; bottom:0; right:0;box-shadow: -0.8em 0 0.1em #fff;}
+.arrow{content:''; display:block; width:0px; height:0px;  position:absolute; top:-15px; left:6%; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 30px solid #bbb; transition-duration: 0.5s;}
+
+/*.fix_box:before{content:''; display:block; position:absolute; bottom:-1px; left:-61px; background:linear-gradient(-90deg, #fff, rgba(255,0,0,0) 97.71%); width:60px; height:calc(100% + 2px);}*/
+</style>
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+    var ele1 = document.getElementById("customHeight1");
+    viewAction(1, ele1);
+    var ele2 = document.getElementsByClassName("button2_area");
+    viewAction(2, ele2);
+});
+
+function editfunc(obj, msg, num){
+    var arr = document.getElementsByClassName("bottom_box")[0].getElementsByTagName("button");
+    var detail = document.getElementsByClassName("detail_box")[0];
+    detail.classList.remove("active");
+    var arrow = document.getElementsByClassName("arrow")[0];
+    var arrowWidth = arrow.offsetWidth;
+    [].forEach.call(arr, function(item1){
+         item1.classList.remove("active");
+    });
+    switch(msg){
+        case 'normal' : 
+            var as = arr[num].offsetWidth;
+            arrow.style.left = (num*as) + as/2 - arrowWidth/2 + num*6 +'px';
+        break;
+        case 'edit' : 
+            var parentWidth = document.getElementsByClassName("bottom_box")[0].offsetWidth;
+            var as = arr[arr.length-1].offsetWidth; 
+            arrow.style.left = (parentWidth - as) + as/2 - arrowWidth/2 +'px';         
+            detail.classList.add("active");
+        break;
+    }
+    obj.classList.add("active");
+}
+
+function viewAction(index, ele){
+    switch(index){
+        case 1 : 
+            ele.style.width = ele.offsetHeight + "px";
+        break;
+        case 2 : 
+            ele[0].style.paddingRight = document.getElementById("customHeight1").offsetWidth / 2 + "px";
+            ele[1].style.paddingLeft = document.getElementById("customHeight1").offsetWidth / 2 + "px";
+        break;
+        case 3 : 
+        break;
+    }
+}
+</script>
+</head>
+<body>
+<section>
+<div id="graph_box" class="box">
+    <img src="./img/graph.PNG" width="100%" height="100%">
+</div>
+<div id="metronome_box" class="box">
+    <img src="./img/mat.PNG" style="text-align:center;" height="100%">
+</div>
+<div id="label_box" class="label_box box">
+    <div class="detail_box font_mono">
+        Name : 북소리 | Category : Big
+    </div>
+    <div class="bottom_box">
+        <div class="scroll_x_box btn_list_box">
+            <button class="button_many_area font_mono font4 active" type="button" onclick="editfunc(this, 'normal', 0);">쿵</button>
+            <button class="button_many_area font_mono font4" type="button" onclick="editfunc(this, 'normal', 1);">드륵</button>
+            <button class="button_many_area font_mono font4" type="button" onclick="editfunc(this, 'normal', 2);">꾕</button>
+            <button class="button_many_area font_mono font4" type="button" onclick="editfunc(this, 'normal', 3);">쾅</button>
+            <button class="button_many_area font_mono font4" type="button" onclick="editfunc(this, 'normal', 4);">끼익</button>
+        </div>
+        <button class="fix_box font6" type="button"  onclick="editfunc(this, 'edit');">+</button>
+    <div class="arrow"></div>
+    </div>
+</div>
+</section>
+<footer>
+    <div id="label_box" class="" style="display:none;">
+        이곳은 인풋영역 1
+    </div>
+    <div id="button_box" class="button_box">
+        <button class="button2_area button_l font_mono font2" type="button">편집모드</button>
+        <button class="button2_area button_r font_mono font3" type="button">커뮤니티</button>
+    </div>
+    <button id="customHeight1" class="font_mono main_btn" type="button"><span class="font1">IN</span></button>
+</footer>
+</body>
+</html>
